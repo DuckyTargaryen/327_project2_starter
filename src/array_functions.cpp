@@ -6,18 +6,100 @@
  */
 
 //============================================================================
-//	TODO add necessary includes here
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include "array_functions.h"
+#include "utilities.h"
+#include "constants.h"
+using namespace std;
 //============================================================================
 
 //============================================================================
 //	stuff you will need
 //============================================================================
-//TODO define a structure to track words and number of times they occur
+struct entry{
+	string word;
+	int occurances;
+};
 
-//TODO add a global array of entry structs (global to this file)
+entry words[constants::MAX_WORDS];
 
-//TODO add variable to keep track of next available slot in array
+int slot = 0;
 
 //TODO define all functions in header file
+void clearArray(){
+	slot = 0;
+}
 
+int getArraySize(){
+	return slot;
+}
+
+std::string getArrayWordAt(int i){
+	return words[i].word;
+}
+
+int getArrayWord_NumbOccur_At(int i){
+	return words[i].occurances;
+}
+
+bool processFile(std::fstream &myfstream){
+	if(!myfstream.is_open()){
+		return false;
+	}
+	string line;
+	getline(myfstream, line);
+	processLine(line);
+
+	myfstream.close();
+	return false;
+}
+
+void processLine(std::string &myString){
+	stringstream strStream(myString);
+
+	string token;
+
+	while(getline(strStream, token, constants::CHAR_TO_SEARCH_FOR)){
+		processToken(token);
+	}
+
+}
+
+void processToken(std::string &token){
+	strip_unwanted_chars(token);
+	for(struct entry e : words){
+		if(toUpper(token) == toUpper(e.word)){
+			e.occurances += 1;
+			return;
+		}
+	}
+	struct entry ent;
+	ent.word = token;
+	ent.occurances = 1;
+	words[slot] = ent;
+
+}
+
+bool openFile(std::fstream& myfile, const std::string& myFileName,
+		std::ios_base::openmode mode = std::ios_base::in){
+	myfile.open(myFileName.c_str,mode);
+	return false;
+}
+
+void closeFile(std::fstream& myfile){
+	if(myfile.is_open()){
+		myfile.close();
+	}
+}
+
+int writeArraytoFile(const std::string &outputfilename){
+	return 0;
+}
+
+void sortArray(constants::sortOrder so){
+
+}
 //TODO look in utilities.h for useful functions, particularly strip_unwanted_chars!
