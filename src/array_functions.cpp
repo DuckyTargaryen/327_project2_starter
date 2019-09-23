@@ -70,13 +70,13 @@ void processLine(std::string &myString){
 
 void processToken(std::string &token){
 	strip_unwanted_chars(token);
-	for(struct entry e : words){
+	for(entry e : words){
 		if(toUpper(token) == toUpper(e.word)){
 			e.occurances += 1;
 			return;
 		}
 	}
-	struct entry ent;
+	entry ent;
 	ent.word = token;
 	ent.occurances = 1;
 	words[slot] = ent;
