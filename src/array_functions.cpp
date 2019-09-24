@@ -50,11 +50,12 @@ bool processFile(std::fstream &myfstream){
 		return false;
 	}
 	string line;
-	getline(myfstream, line);
-	processLine(line);
+	while(!myfstream.eof()){
+		getline(myfstream, line);
+		processLine(line);
+	}
 
-	myfstream.close();
-	return false;
+	return myfstream.is_open();
 }
 
 void processLine(std::string &myString){
@@ -70,8 +71,13 @@ void processLine(std::string &myString){
 
 void processToken(std::string &token){
 	strip_unwanted_chars(token);
+	string tempToken = token;
+	toUpper(tempToken);
+	cout << token << endl;
 	for(entry e : words){
-		if(toUpper(token) == toUpper(e.word)){
+		string temp = e.word;
+		toUpper(temp);
+		if(token == e.word){
 			e.occurances += 1;
 			return;
 		}
@@ -84,9 +90,10 @@ void processToken(std::string &token){
 }
 
 bool openFile(std::fstream& myfile, const std::string& myFileName,
-		std::ios_base::openmode mode = std::ios_base::in){
-	myfile.open(myFileName.c_str,mode);
-	return false;
+		std::ios_base::openmode mode){
+	myfile.open(myFileName.c_str(), mode);
+	processFile(myfile);
+	return myfile.is_open();
 }
 
 void closeFile(std::fstream& myfile){
