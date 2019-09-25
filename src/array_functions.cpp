@@ -71,22 +71,23 @@ void processLine(std::string &myString){
 
 void processToken(std::string &token){
 	strip_unwanted_chars(token);
-	string tempToken = token;
-	toUpper(tempToken);
-	cout << token << endl;
-	for(entry e : words){
-		string temp = e.word;
-		toUpper(temp);
-		if(token == e.word){
-			e.occurances += 1;
-			return;
+	if(token != ""){
+		string tempToken = token;
+		toUpper(tempToken);
+		for(int i = 0; i<slot; i++){
+			string temp = words[i].word;
+			toUpper(temp);
+			if(tempToken == temp){
+				words[i].occurances += 1;
+				return;
+			}
 		}
+		entry ent;
+		ent.word = token;
+		ent.occurances = 1;
+		words[slot] = ent;
+		slot += 1;
 	}
-	entry ent;
-	ent.word = token;
-	ent.occurances = 1;
-	words[slot] = ent;
-
 }
 
 bool openFile(std::fstream& myfile, const std::string& myFileName,
@@ -103,7 +104,22 @@ void closeFile(std::fstream& myfile){
 }
 
 int writeArraytoFile(const std::string &outputfilename){
-	return 0;
+	ofstream outputStream;
+	outputStream.open(outputfilename.c_str(), ios::out);
+	if(!outputStream.is_open()){
+		return constants::FAIL_FILE_DID_NOT_OPEN;
+	}
+	else if(slot == 0){
+		outputStream.close();
+		return constants::FAIL_NO_ARRAY_DATA;
+	}
+	else{
+		for(int i = 0; i < slot; i++){
+			outputStream << words[slot].word + "\t" + intToString(words[slot].occurances) << endl;
+		}
+		outputStream.close();
+		return constants::SUCCESS;
+	}
 }
 
 void sortArray(constants::sortOrder so){
