@@ -124,6 +124,58 @@ int writeArraytoFile(const std::string &outputfilename){
 }
 
 void sortArray(constants::sortOrder so){
+	if(so == constants::ASCENDING){
+		for(int i = 0; i < slot; i++){
+			string minWord = words[i].word;
+			int minIndex = i;
+			for(int j = i; j < slot; j++){
+				if(words[j].word < minWord){
+					minIndex = j;
+					minWord = words[j].word;
+				}
+			}
+			if(minWord != words[i].word){
+				entry swap = words[i];
+				words[i] = words[minIndex];
+				words[minIndex] = swap;
+			}
+		}
+
+	}
+	else if(so == constants::DESCENDING){
+		for(int i = 0; i < slot; i++){
+			string maxWord = words[i].word;
+			int maxIndex = i;
+			for(int j = i; j < slot; j++){
+				if(words[j].word > maxWord){
+					maxIndex = j;
+					maxWord = words[j].word;
+				}
+			}
+			if(maxWord != words[i].word){
+				entry swap = words[i];
+				words[i] = words[maxIndex];
+				words[maxIndex] = swap;
+			}
+		}
+	}
+	else if(so == constants::NUMBER_OCCURRENCES){
+		for(int i = 0; i < slot; i++){
+			int minOccur = words[i].occurances;
+			int minIndex = i;
+			for(int j = i; j < slot; j++){
+				if(words[j].occurances < minOccur){
+					minIndex = j;
+					minOccur = words[j].occurances;
+				}
+			}
+			if(minOccur != words[i].occurances){
+				entry swap = words[i];
+				words[i] = words[minIndex];
+				words[minIndex] = swap;
+			}
+		}
+	}
 
 }
 //TODO look in utilities.h for useful functions, particularly strip_unwanted_chars!
