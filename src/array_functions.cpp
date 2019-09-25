@@ -105,7 +105,7 @@ void closeFile(std::fstream& myfile){
 
 int writeArraytoFile(const std::string &outputfilename){
 	ofstream outputStream;
-	outputStream.open(outputfilename.c_str(), ios::out);
+	outputStream.open(outputfilename.c_str());
 	if(!outputStream.is_open()){
 		return constants::FAIL_FILE_DID_NOT_OPEN;
 	}
