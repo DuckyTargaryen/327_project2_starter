@@ -115,7 +115,8 @@ int writeArraytoFile(const std::string &outputfilename){
 	}
 	else{
 		for(int i = 0; i < slot; i++){
-			outputStream << words[slot].word + "\t" + intToString(words[slot].occurances) << endl;
+			//cout << words[i].word + "\t" + intToString(words[i].occurances) << endl;
+			outputStream << words[i].word + "\t" + intToString(words[i].occurances) << endl;
 		}
 		outputStream.close();
 		return constants::SUCCESS;
