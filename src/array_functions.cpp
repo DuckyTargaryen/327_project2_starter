@@ -115,8 +115,7 @@ int writeArraytoFile(const std::string &outputfilename){
 	}
 	else{
 		for(int i = 0; i < slot; i++){
-			//cout << words[i].word + "\t" + intToString(words[i].occurances) << endl;
-			outputStream << words[i].word + "\t" + intToString(words[i].occurances) << endl;
+			outputStream << words[i].word + " " + intToString(words[i].occurances) << endl;
 		}
 		outputStream.close();
 		return constants::SUCCESS;
@@ -127,11 +126,17 @@ void sortArray(constants::sortOrder so){
 	if(so == constants::ASCENDING){
 		for(int i = 0; i < slot; i++){
 			string minWord = words[i].word;
+			string tempMinWord = minWord;
+			toUpper(tempMinWord);
 			int minIndex = i;
 			for(int j = i; j < slot; j++){
-				if(words[j].word < minWord){
+				string tempWord = words[j].word;
+				toUpper(tempWord);
+				if(tempWord < tempMinWord){
 					minIndex = j;
 					minWord = words[j].word;
+					tempMinWord = words[j].word;
+					toUpper(tempMinWord);
 				}
 			}
 			if(minWord != words[i].word){
@@ -145,11 +150,17 @@ void sortArray(constants::sortOrder so){
 	else if(so == constants::DESCENDING){
 		for(int i = 0; i < slot; i++){
 			string maxWord = words[i].word;
+			string tempMaxWord = maxWord;
+			toUpper(tempMaxWord);
 			int maxIndex = i;
 			for(int j = i; j < slot; j++){
+				string tempWord = words[j].word;
+				toUpper(tempWord);
 				if(words[j].word > maxWord){
 					maxIndex = j;
 					maxWord = words[j].word;
+					tempMaxWord = words[j].word;
+					toUpper(tempMaxWord);
 				}
 			}
 			if(maxWord != words[i].word){
