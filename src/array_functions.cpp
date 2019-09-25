@@ -21,14 +21,13 @@ using namespace std;
 //============================================================================
 struct entry{
 	string word;
-	int occurances;
+	int occurrences;
 };
 
-entry words[constants::MAX_WORDS];
+entry wordArry[constants::MAX_WORDS];
 
 int slot = 0;
 
-//TODO define all functions in header file
 void clearArray(){
 	slot = 0;
 }
@@ -38,11 +37,11 @@ int getArraySize(){
 }
 
 std::string getArrayWordAt(int i){
-	return words[i].word;
+	return wordArry[i].word;
 }
 
 int getArrayWord_NumbOccur_At(int i){
-	return words[i].occurances;
+	return wordArry[i].occurrences;
 }
 
 bool processFile(std::fstream &myfstream){
@@ -75,17 +74,17 @@ void processToken(std::string &token){
 		string tempToken = token;
 		toUpper(tempToken);
 		for(int i = 0; i<slot; i++){
-			string temp = words[i].word;
+			string temp = wordArry[i].word;
 			toUpper(temp);
 			if(tempToken == temp){
-				words[i].occurances += 1;
+				wordArry[i].occurrences += 1;
 				return;
 			}
 		}
 		entry ent;
 		ent.word = token;
-		ent.occurances = 1;
-		words[slot] = ent;
+		ent.occurrences = 1;
+		wordArry[slot] = ent;
 		slot += 1;
 	}
 }
@@ -115,7 +114,7 @@ int writeArraytoFile(const std::string &outputfilename){
 	}
 	else{
 		for(int i = 0; i < slot; i++){
-			outputStream << words[i].word + " " + intToString(words[i].occurances) << endl;
+			outputStream << wordArry[i].word + " " + intToString(wordArry[i].occurrences) << endl;
 		}
 		outputStream.close();
 		return constants::SUCCESS;
@@ -125,68 +124,67 @@ int writeArraytoFile(const std::string &outputfilename){
 void sortArray(constants::sortOrder so){
 	if(so == constants::ASCENDING){
 		for(int i = 0; i < slot; i++){
-			string minWord = words[i].word;
+			string minWord = wordArry[i].word;
 			string tempMinWord = minWord;
 			toUpper(tempMinWord);
 			int minIndex = i;
 			for(int j = i; j < slot; j++){
-				string tempWord = words[j].word;
+				string tempWord = wordArry[j].word;
 				toUpper(tempWord);
 				if(tempWord < tempMinWord){
 					minIndex = j;
-					minWord = words[j].word;
-					tempMinWord = words[j].word;
+					minWord = wordArry[j].word;
+					tempMinWord = wordArry[j].word;
 					toUpper(tempMinWord);
 				}
 			}
-			if(minWord != words[i].word){
-				entry swap = words[i];
-				words[i] = words[minIndex];
-				words[minIndex] = swap;
+			if(minWord != wordArry[i].word){
+				entry swap = wordArry[i];
+				wordArry[i] = wordArry[minIndex];
+				wordArry[minIndex] = swap;
 			}
 		}
 
 	}
 	else if(so == constants::DESCENDING){
 		for(int i = 0; i < slot; i++){
-			string maxWord = words[i].word;
+			string maxWord = wordArry[i].word;
 			string tempMaxWord = maxWord;
 			toUpper(tempMaxWord);
 			int maxIndex = i;
 			for(int j = i; j < slot; j++){
-				string tempWord = words[j].word;
+				string tempWord = wordArry[j].word;
 				toUpper(tempWord);
-				if(words[j].word > maxWord){
+				if(wordArry[j].word > maxWord){
 					maxIndex = j;
-					maxWord = words[j].word;
-					tempMaxWord = words[j].word;
+					maxWord = wordArry[j].word;
+					tempMaxWord = wordArry[j].word;
 					toUpper(tempMaxWord);
 				}
 			}
-			if(maxWord != words[i].word){
-				entry swap = words[i];
-				words[i] = words[maxIndex];
-				words[maxIndex] = swap;
+			if(maxWord != wordArry[i].word){
+				entry swap = wordArry[i];
+				wordArry[i] = wordArry[maxIndex];
+				wordArry[maxIndex] = swap;
 			}
 		}
 	}
 	else if(so == constants::NUMBER_OCCURRENCES){
 		for(int i = 0; i < slot; i++){
-			int minOccur = words[i].occurances;
+			int minOccur = wordArry[i].occurrences;
 			int minIndex = i;
 			for(int j = i; j < slot; j++){
-				if(words[j].occurances < minOccur){
+				if(wordArry[j].occurrences < minOccur){
 					minIndex = j;
-					minOccur = words[j].occurances;
+					minOccur = wordArry[j].occurrences;
 				}
 			}
-			if(minOccur != words[i].occurances){
-				entry swap = words[i];
-				words[i] = words[minIndex];
-				words[minIndex] = swap;
+			if(minOccur != wordArry[i].occurrences){
+				entry swap = wordArry[i];
+				wordArry[i] = wordArry[minIndex];
+				wordArry[minIndex] = swap;
 			}
 		}
 	}
 
 }
-//TODO look in utilities.h for useful functions, particularly strip_unwanted_chars!
