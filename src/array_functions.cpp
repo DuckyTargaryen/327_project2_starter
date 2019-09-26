@@ -17,9 +17,7 @@ using namespace std;
 //============================================================================
 
 //============================================================================
-//	stuff you will need
-//============================================================================
-struct entry{
+struct entry{	//The struct used for the entries
 	string word;
 	int occurrences;
 };
@@ -27,23 +25,48 @@ struct entry{
 entry wordArry[constants::MAX_WORDS];
 
 int slot = 0;
+//============================================================================
 
+//============================================================================
+/**
+ * Clears the array
+ */
 void clearArray(){
 	slot = 0;
 }
 
+/**
+ * Gets the size of the array
+ * return: An int representing the size of the array
+ */
 int getArraySize(){
 	return slot;
 }
 
+/**
+ * Returns the word located at the specified index
+ * param: i The specified index
+ * return: A string representing the word
+ */
 std::string getArrayWordAt(int i){
 	return wordArry[i].word;
 }
 
+/**
+ * Returns the number of occurrences of a word
+ * at a specified index
+ * param: i The specified index
+ * return: An int representing the number of occurrences
+ */
 int getArrayWord_NumbOccur_At(int i){
 	return wordArry[i].occurrences;
 }
 
+/**
+ * Retrieves input from a file
+ * param: myfstream The fstream of the input file
+ * return: A bool representing if the retrieval was successful
+ */
 bool processFile(std::fstream &myfstream){
 	if(!myfstream.is_open()){
 		return false;
@@ -57,6 +80,10 @@ bool processFile(std::fstream &myfstream){
 	return myfstream.is_open();
 }
 
+/**
+ * Separates each line into individual tokens
+ * param: myString A line of text
+ */
 void processLine(std::string &myString){
 	stringstream strStream(myString);
 
@@ -68,6 +95,10 @@ void processLine(std::string &myString){
 
 }
 
+/**
+ * Adds the token to the array
+ * param: token The token or word
+ */
 void processToken(std::string &token){
 	strip_unwanted_chars(token);
 	if(token != ""){
@@ -89,6 +120,13 @@ void processToken(std::string &token){
 	}
 }
 
+/**
+ * Opens the file and creates a fstream
+ * param: myfile An unopened fstream
+ * param: myFileName The name of the input file
+ * param: mode The mode in which the file is opened
+ * return: A bool indicating whether the file was able to be opened
+ */
 bool openFile(std::fstream& myfile, const std::string& myFileName,
 		std::ios_base::openmode mode){
 	myfile.open(myFileName.c_str(), mode);
@@ -96,12 +134,21 @@ bool openFile(std::fstream& myfile, const std::string& myFileName,
 	return myfile.is_open();
 }
 
+/**
+ * Closes the fstream if it is still open
+ * param: myfile The fstream that needs to be closed
+ */
 void closeFile(std::fstream& myfile){
 	if(myfile.is_open()){
 		myfile.close();
 	}
 }
 
+/**
+ * Writes the contents of the array to the output file
+ * param: outputfilename The name of the output file
+ * return: An int representing the success or failure of writing to a file
+ */
 int writeArraytoFile(const std::string &outputfilename){
 	ofstream outputStream;
 	outputStream.open(outputfilename.c_str());
@@ -121,6 +168,11 @@ int writeArraytoFile(const std::string &outputfilename){
 	}
 }
 
+/**
+ * Sorts the contents of the array using the
+ * selection sort algorithm
+ * param: so The order in which the contents will be sorted
+ */
 void sortArray(constants::sortOrder so){
 	if(so == constants::ASCENDING){
 		for(int i = 0; i < slot; i++){
@@ -188,3 +240,4 @@ void sortArray(constants::sortOrder so){
 	}
 
 }
+//============================================================================
